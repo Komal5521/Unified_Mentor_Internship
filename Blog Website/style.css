@@ -1,0 +1,279 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+header{
+    background-color: #222;
+    color: white;
+    text-align: center;
+}
+
+/* Nav bar styling*/
+.navbar{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    padding: 15px 20px;
+    columns: white;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.logo img{
+    width: 40px;
+    height: auto;
+    color: white;
+
+}
+
+.nav-links{
+    list-style: none;
+    display: flex;
+    gap: 50px;
+}
+
+.nav-links li a{
+    color: #00bfff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover{
+    color: white;
+}
+
+#searchBar{
+    margin-top: 10px;
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    border: none;
+}
+
+
+
+/* Home section*/
+.home-section {
+    text-align: center;
+    background-color: #fff;
+    padding: 50px 20px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .welcome h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .welcome p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .welcome button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: #00bfff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .welcome button:hover {
+    background-color: #0077aa;
+  }
+  
+  .signup-form {
+    display: none;
+    margin: 30px auto;
+    max-width: 400px;
+    text-align: left;
+    background: #f7f7f7;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .signup-form h2 {
+    margin-bottom: 15px;
+  }
+  
+  .signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .signup-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  main {
+    padding: 30px;
+  }
+  
+  .post-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .post-card img {
+    width: 500px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .meta {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  
+  .full-post {
+    display: none;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+  }
+  
+  .comment-box form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .comment-box input,
+  .comment-box textarea {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .comment-box ul {
+    list-style: none;
+    margin-top: 10px;
+    padding-left: 0;
+  }
+  
+  .comment-box li {
+    background: #f1f1f1;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+
+  /*New blog*/
+  #newBlogBtn {
+    margin-left: 15px;
+    padding: 8px 15px;
+    background-color: #00bfff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #newBlogBtn:hover {
+    background-color: #0077aa;
+  }
+  
+  .new-blog-form {
+    display: none;
+    margin: 30px auto;
+    padding: 25px;
+    max-width: 600px;
+    background: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .new-blog-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .new-blog-form input,
+  .new-blog-form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .new-blog-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  
+  
+  /* footer section */
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: #222;
+    color: white;
+    margin-top: 50px;
+  }
+  
+  footer a {
+    color: #ddd;
+    margin: 0 5px;
+    text-decoration: none;
+  }
+  footer a:hover{
+    color: #00bfff;
+  }
+  
+  .socials {
+    margin-top: 10px;
+    font-size: 0.9em;
+  }

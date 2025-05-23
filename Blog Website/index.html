@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komal`s Blog </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Nav Section -->
+    <header>
+       <div class="navbar">
+        <div class="logo">
+            <img src="img/blogger-svgrepo-com.svg" alt="Blog logo"><span>Blogger</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#tech">Tech</a></li>
+                <li><a href="#lifestyle">Lyfestyle</a></li>
+                <li><a href="#travel">Travel</a></li>
+               
+            </ul>
+        </nav>
+        <button id="newBlogBtn" onclick="toggleNewBlogForm()">New Blog</button>
+        <input type="text" id="searchBar" placeholder="Search posts..." onkeyup="searchPosts()">
+       </div>
+    </header>
+
+    <!-- Home section -->
+    <section class="home-section" id="#home">
+        <div class="welcome">
+          <h1>Welcome to My Blogger!</h1>
+          <p>Join our community and start sharing your stories.</p>
+          <button onclick="toggleForm()">Create Account</button>
+        </div>
+      
+        <form id="signupForm" class="signup-form" onsubmit="event.preventDefault(); alert('Account created!');">
+          <h2>Create Account</h2>
+          <input type="text" placeholder="Full Name" required>
+          <input type="email" placeholder="Email" required>
+          <input type="password" placeholder="Password" required>
+          <button type="submit">Register</button>
+        </form>
+      </section>
+      
+
+    <!-- Main section -->
+    <main>
+        <section class="blog-list" id="#tech">
+          <article class="post-card" data-tags="tech">
+            <img src="img/techh.png" alt="Post Image">
+            <h2>Mastering JavaScript in 2025</h2>
+            <p class="meta">By Komal | April 1, 2025 | #Tech</p>
+            <p>Explore powerful JavaScript concepts and real-world use cases that matter in modern web development...</p>
+            <button onclick="togglePost(1)">Read More</button>
+            <div class="full-post" id="post1">
+              <p>This is the full content of the blog post...</p>
+              <div class="comment-box">
+                <h3>Comments</h3>
+                <form onsubmit="addComment(event, 'comments1')">
+                  <input type="text" placeholder="Your Name" required>
+                  <textarea placeholder="Your Comment" required></textarea>
+                  <button type="submit">Submit</button>
+                </form>
+                <ul id="comments1"></ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="post-card" data-tags="lifestyle">
+            <img src="img/lifestyle.jpg" alt="Post Image">
+            <h2>Healthy Habits for Coders</h2>
+            <p class="meta">By Komal | April 10, 2025 | #Lifestyle</p>
+            <p>Balancing screen time and wellness can be tough, but these tips will keep your mind and body fresh...</p>
+            <button onclick="togglePost(2)">Read More</button>
+            <div class="full-post" id="post2">
+              <p>Here’s how you can stay healthy as a developer...</p>
+              <div class="comment-box">
+                <h3>Comments</h3>
+                <form onsubmit="addComment(event, 'comments2')">
+                  <input type="text" placeholder="Your Name" required>
+                  <textarea placeholder="Your Comment" required></textarea>
+                  <button type="submit">Submit</button>
+                </form>
+                <ul id="comments2"></ul>
+              </div>
+            </div>
+          </article>
+     
+          <article class="post-card" id="#travel" data-tags="travel">
+            <img src="/img/travel.jpg" alt="Post Image">
+            <h2>Work & Travel: Best of Both Worlds</h2>
+            <p class="meta">By Komal | April 20, 2025 | #Travel</p>
+            <p>Remote jobs are booming—here’s how to explore the world without giving up your career...</p>
+            <button onclick="togglePost(3)">Read More</button>
+            <div class="full-post" id="post3">
+              <p>These destinations offer the best Wi-Fi, lifestyle, and cost-effectiveness...</p>
+              <div class="comment-box">
+                <h3>Comments</h3>
+                <form onsubmit="addComment(event, 'comments3')">
+                  <input type="text" placeholder="Your Name" required>
+                  <textarea placeholder="Your Comment" required></textarea>
+                  <button type="submit">Submit</button>
+                </form>
+                <ul id="comments3"></ul>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <!-- New blog button -->
+      <section id="newBlogForm" class="new-blog-form">
+        <h2>Add New Blog Post</h2>
+        <form onsubmit="addNewBlog(event)">
+          <input type="text" id="blogTitle" placeholder="Blog Title" required>
+          <input type="text" id="blogCategory" placeholder="Category (e.g., Tech, Travel)" required>
+          <textarea id="blogContent" placeholder="Write your blog content here..." rows="5" required></textarea>
+          <button type="submit">Publish Blog</button>
+        </form>
+      </section>
+         
+
+<!-- Footer section-->
+      <footer>
+        <p>&copy; 2025 Komal's Blog | <a href="#">About</a> | <a href="#">Privacy Policy</a></p>
+        <div class="socials">
+          <a href="#">Instagram</a> | 
+          <a href="#">Twitter</a> | 
+          <a href="#">LinkedIn</a>
+        </div>
+      </footer>
+ 
+    <script src="script.js"></script>
+</body>
+</html>
