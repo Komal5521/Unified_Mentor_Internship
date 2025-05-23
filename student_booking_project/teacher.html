@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teacher Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #f1f8f6);
+      min-height: 100vh;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .card {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .table th {
+      background-color: #198754;
+      color: white;
+    }
+
+    .section-title {
+      color: #2e7d32;
+      margin-top: 30px;
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      margin-right: 5px;
+    }
+
+    .fw-bold {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success px-3">
+    <a class="navbar-brand" href="#">📘 Teacher Dashboard</a>
+    <div class="ms-auto d-flex align-items-center text-white">
+      <span id="teacherName" class="me-3 fw-bold"></span>
+      <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout <i class="fas fa-sign-out-alt"></i></button>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <!-- 👨‍🏫 Profile Section -->
+    <div class="card mb-4">
+      <div class="card-header bg-success text-white">
+        <i class="fas fa-user-circle me-1"></i> Your Profile
+      </div>
+      <div class="card-body">
+        <p><strong>Name:</strong> <span id="profileName"></span></p>
+        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+        <p><strong>Subject:</strong> <span id="profileSubject"></span></p>
+      </div>
+    </div>
+
+    <!-- 📅 Appointments Table -->
+    <h4 class="section-title">📅 Appointments to Approve</h4>
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped m-0" id="appointmentsTable">
+          <thead class="table-success">
+            <tr>
+              <th>Student</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <!-- Script -->
+  <script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    let currentUserEmail = "";
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please login as a teacher.");
+        window.location.href = "login-teacher.html";
+        return;
+      }
+
+      currentUserEmail = user.email;
+
+      // Load teacher profile
+      db.collection("teachers").where("email", "==", currentUserEmail).get()
+        .then(snapshot => {
+          if (!snapshot.empty) {
+            const teacher = snapshot.docs[0].data();
+            document.getElementById("teacherName").textContent = teacher.name;
+            document.getElementById("profileName").textContent = teacher.name;
+            document.getElementById("profileEmail").textContent = teacher.email;
+            document.getElementById("profileSubject").textContent = teacher.subject;
+          }
+        });
+
+      // Load appointments (first try by name, then fallback to email)
+      db.collection("appointments")
+        .where("teacherName", "==", "")
+        .get()
+        .then(snapshot => {
+          return snapshot.empty
+            ? db.collection("appointments").where("teacherEmail", "==", currentUserEmail).get()
+            : snapshot;
+        })
+        .then(snapshot => {
+          const table = document.querySelector("#appointmentsTable tbody");
+          table.innerHTML = "";
+
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+              <td>${data.studentEmail}</td>
+              <td>${data.appointmentTime}</td>
+              <td>${data.status}</td>
+              <td>
+                ${data.status === "Pending" ? `
+                  <button class="btn btn-sm btn-outline-success" onclick="updateStatus('${doc.id}', 'Approved')">Approve</button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="updateStatus('${doc.id}', 'Rejected')">Reject</button>
+                ` : `<span class="text-muted">${data.status}</span>`}
+              </td>
+            `;
+
+            table.appendChild(row);
+          });
+        });
+    });
+
+    function updateStatus(docId, status) {
+      db.collection("appointments").doc(docId).update({ status })
+        .then(() => {
+          alert("Status updated to " + status);
+        });
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        alert("Logged out!");
+        window.location.href = "index.html";
+      });
+    }
+  </script>
+</body>
+</html>

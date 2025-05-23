@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+    h2 {
+      color: #4CAF50;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    th {
+      background: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Welcome Admin 👨‍💼</h2>
+
+  <div class="section">
+    <h3>📘 Registered Students</h3>
+    <table id="studentsTable">
+      <tr><th>Name</th><th>Email</th><th>Registered At</th></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>📅 Appointments</h3>
+    <table id="appointmentsTable">
+      <tr><th>Student Email</th><th>Teacher</th><th>Time</th><th>Status</th></tr>
+    </table>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+
+    // Load students
+    db.collection("students").get().then(snapshot => {
+      const table = document.getElementById("studentsTable");
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const row = table.insertRow();
+        row.innerHTML = `<td>${data.name}</td><td>${data.email}</td><td>${data.createdAt.toDate().toLocaleString()}</td>`;
+      });
+    });
+
+    // Load appointments
+    db.collection("appointments").get().then(snapshot => {
+      const table = document.getElementById("appointmentsTable");
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const row = table.insertRow();
+        row.innerHTML = `<td>${data.studentEmail}</td><td>${data.teacherName}</td><td>${data.appointmentTime}</td><td>${data.status}</td>`;
+      });
+    });
+  </script>
+
+</body>
+</html>

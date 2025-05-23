@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #f1f8f6);
+      min-height: 100vh;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .card {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+      margin-top: 30px;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    .btn-success {
+      border-radius: 8px;
+    }
+
+    #studentName {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success px-3">
+    <a class="navbar-brand" href="#">📘 Booking App</a>
+    <div class="ms-auto d-flex align-items-center text-white">
+      <span class="me-3" id="studentName">Student</span>
+      <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout <i class="fas fa-sign-out-alt"></i></button>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <!-- Booking Section -->
+    <div class="card mb-4">
+      <div class="card-header bg-success text-white">
+        📅 Book an Appointment
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="teacherSelect" class="form-label">Select Teacher</label>
+          <select id="teacherSelect" class="form-select">
+            <option disabled selected value="">-- Select a Teacher --</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="appointmentTime" class="form-label">Preferred Time</label>
+          <input type="text" id="appointmentTime" class="form-control" placeholder="e.g. 10:00 AM">
+        </div>
+        <button class="btn btn-success" onclick="bookAppointment()">Book Appointment</button>
+      </div>
+    </div>
+
+    <!-- My Appointments -->
+    <h4 class="section-title">📘 My Appointments</h4>
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped m-0" id="appointmentsTable">
+          <thead class="table-success">
+            <tr>
+              <th>Teacher</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Booked At</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase & JS -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    let currentUser = null;
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please login first!");
+        window.location.href = "login-student.html";
+        return;
+      }
+
+      currentUser = user;
+      document.getElementById("studentName").textContent = user.email;
+
+      // Populate teacher dropdown
+      db.collection("teachers").get().then(snapshot => {
+        const select = document.getElementById("teacherSelect");
+        snapshot.forEach(doc => {
+          const teacher = doc.data();
+          if (teacher.name && teacher.email && teacher.subject) {
+            const option = document.createElement("option");
+            option.value = JSON.stringify({ name: teacher.name, email: teacher.email });
+            option.textContent = `${teacher.name} (${teacher.subject})`;
+            select.appendChild(option);
+          }
+        });
+      });
+
+      // Load student's appointments
+      db.collection("appointments")
+        .where("studentId", "==", currentUser.uid)
+        .orderBy("createdAt", "desc")
+        .onSnapshot(snapshot => {
+          const table = document.querySelector("#appointmentsTable tbody");
+          table.innerHTML = "";
+
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${data.teacherName}</td>
+              <td>${data.appointmentTime}</td>
+              <td>${data.status}</td>
+              <td>${data.createdAt?.toDate().toLocaleString() || "N/A"}</td>
+            `;
+            table.appendChild(row);
+          });
+        });
+    });
+
+    function bookAppointment() {
+      const teacherData = JSON.parse(document.getElementById("teacherSelect").value);
+      const time = document.getElementById("appointmentTime").value.trim();
+      if (!teacherData || !time) return alert("Please select a teacher and enter time.");
+
+      db.collection("appointments").add({
+        studentId: currentUser.uid,
+        studentEmail: currentUser.email,
+        teacherName: teacherData.name,
+        teacherEmail: teacherData.email,
+        appointmentTime: time,
+        status: "Pending",
+        createdAt: new Date()
+      }).then(() => {
+        alert("✅ Appointment booked!");
+        document.getElementById("teacherSelect").value = "";
+        document.getElementById("appointmentTime").value = "";
+      });
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        alert("Logged out!");
+        window.location.href = "index.html";
+      });
+    }
+  </script>
+</body>
+</html>

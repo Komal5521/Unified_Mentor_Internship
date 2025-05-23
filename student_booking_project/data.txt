@@ -1,0 +1,20 @@
+student Login :  Vaish Patil
+		 vaish123@gmail.com
+		 vaish@123
+
+Teacher login : Rahul Sharma 
+		rahul123@gmail.com
+		rahul@123
+		Math
+
+		Raj Patil
+		raj123@gmail.com
+		raj@123
+		Biology
+
+		Silk Sharma
+		silk123@gmail.com
+		silk@123
+		English
+
+

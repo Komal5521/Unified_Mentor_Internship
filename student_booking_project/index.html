@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome - Booking App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #f1f8f6);
+      margin: 0;
+      padding-bottom: 60px;
+    }
+    .hero {
+      padding: 80px 0;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 30px;
+    }
+    .hero .btn {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 1rem;
+    }
+    footer {
+      background-color: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success px-3">
+    <a class="navbar-brand fw-bold" href="#"><i class="fas fa-book-open"></i> Booking App</a>
+    <div class="ms-auto text-white">
+      <i class="fas fa-calendar-check me-2"></i>Student-Teacher Appointments
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Welcome to the Appointment System</h1>
+      <p>Book, manage, and approve appointments easily between students and teachers.</p>
+      <div>
+        <a href="select-role.html?type=login" class="btn btn-outline-success"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="select-role.html?type=register" class="btn btn-success"><i class="fas fa-user-plus"></i> Register</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Developed by Komal | Booking System
+  </footer>
+
+</body>
+</html>
